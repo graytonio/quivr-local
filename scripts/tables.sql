@@ -26,17 +26,17 @@ CREATE TABLE IF NOT EXISTS vectors (
     content TEXT,
     file_sha1 TEXT,
     metadata JSONB,
-    embedding VECTOR(1536)
+    embedding VECTOR(768)
 );
 
 -- Create function to match vectors
-CREATE OR REPLACE FUNCTION match_vectors(query_embedding VECTOR(1536), match_count INT, p_brain_id UUID)
+CREATE OR REPLACE FUNCTION match_vectors(query_embedding VECTOR(768), match_count INT, p_brain_id UUID)
 RETURNS TABLE(
     id UUID,
     brain_id UUID,
     content TEXT,
     metadata JSONB,
-    embedding VECTOR(1536),
+    embedding VECTOR(768),
     similarity FLOAT
 ) LANGUAGE plpgsql AS $$
 #variable_conflict use_column
@@ -76,17 +76,17 @@ CREATE TABLE IF NOT EXISTS summaries (
     document_id UUID REFERENCES vectors(id),
     content TEXT,
     metadata JSONB,
-    embedding VECTOR(1536)
+    embedding VECTOR(768)
 );
 
 -- Create function to match summaries
-CREATE OR REPLACE FUNCTION match_summaries(query_embedding VECTOR(1536), match_count INT, match_threshold FLOAT)
+CREATE OR REPLACE FUNCTION match_summaries(query_embedding VECTOR(768), match_count INT, match_threshold FLOAT)
 RETURNS TABLE(
     id BIGINT,
     document_id UUID,
     content TEXT,
     metadata JSONB,
-    embedding VECTOR(1536),
+    embedding VECTOR(768),
     similarity FLOAT
 ) LANGUAGE plpgsql AS $$
 #variable_conflict use_column
